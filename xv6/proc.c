@@ -544,6 +544,7 @@ int faps (void)
 
   for (process = ptable.proc; process < &ptable.proc[NPROC]; process++)
   {
+    cprintf("\t________________________________________\t\n");
     if (process->state == UNUSED)
       cprintf("\t%s\t|\t%d\t|\tUNUSED\t\n", process->name, process->pid);
     else if (process->state == EMBRYO)
