@@ -532,3 +532,31 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int faps (void)
+{
+  struct proc *process;
+
+  sti();  // Enabling interrupts for locking mechanisms
+
+  acquire(&ptable.lock);
+  cprintf("\tNAME\t|\tPID\t|\tSTATE\t\n");
+
+  for (process = ptable.proc; process < &ptable.proc[NPROC]; process++)
+  {
+    if (process->state == UNUSED)
+      cprintf("\t%s\t|\t%d\t|\tUNUSED\t\n", process->name, process->pid);
+    else if (process->state == EMBRYO)
+      cprintf("\t%s\t|\t%d\t|\tEMBRYO\t\n", process->name, process->pid);
+    else if (process->state == SLEEPING)
+      cprintf("\t%s\t|\t%d\t|\tSLEEPING\t\n", process->name, process->pid);
+    else if (process->state == RUNNABLE)
+      cprintf("\t%s\t|\t%d\t|\tRUNNABLE\t\n", process->name, process->pid);
+    else if (process->state == RUNNING)
+      cprintf("\t%s\t|\t%d\t|\tRUNNING\t\n", process->name, process->pid);
+    else if (process->state == ZOMBIE)
+      cprintf("\t%s\t|\t%d\t|\tZOMBIE\t\n", process->name, process->pid);
+  }
+  release(&ptable.lock);
+  return 42;
+}
