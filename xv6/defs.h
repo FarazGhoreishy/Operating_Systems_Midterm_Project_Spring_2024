@@ -10,6 +10,8 @@ struct sleeplock;
 struct stat;
 struct superblock;
 
+struct process_info;
+
 // bio.c
 void            binit(void);
 struct buf*     bread(uint, uint);
@@ -121,6 +123,7 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 int             faps(int);
+int             ps(int, int, struct process_info*);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
