@@ -26,7 +26,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int faps(int);
-int ps(int, int, struct process_info*);
+int ps(int, int, struct Process_Info*);
 
 // ulib.c
 int stat(const char*, struct stat*);
