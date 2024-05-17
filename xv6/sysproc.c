@@ -102,9 +102,12 @@ int sys_faps(void)
 
 int sys_ps(void)
 {
+  int pid;
+  int state;
+  struct Process_Info *process_info;
 
-   struct Data *data;
-   argptr(0, (void *)&data, sizeof(*data));
-   return doSomeWork((void *)data);
+  if (argint(0, &pid) < 0 || argint(1, &state) < 0 || argptr(0, (void *)&process_info, sizeof(*process_info)) < 0)
+    return -1;
 
+  return ps(pid, state, (void *)process_info);
 }

@@ -1,7 +1,7 @@
 struct stat;
 struct rtcdate;
 
-struct process_info;
+struct Process_Info;
 
 // system calls
 int fork(void);
