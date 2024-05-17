@@ -17,70 +17,69 @@ int main()
    b:	ff 71 fc             	pushl  -0x4(%ecx)
    e:	55                   	push   %ebp
    f:	89 e5                	mov    %esp,%ebp
-  11:	51                   	push   %ecx
-  12:	83 ec 20             	sub    $0x20,%esp
+  11:	53                   	push   %ebx
+  12:	51                   	push   %ecx
 
     struct Process_Info* process_info = (struct Process_Info*) malloc(sizeof(struct Process_Info));   
-  15:	6a 1c                	push   $0x1c
-  17:	e8 b4 06 00 00       	call   6d0 <malloc>
-    printf(1, "Address of struct:\t%d\n\r", &process_info);
-  1c:	83 c4 0c             	add    $0xc,%esp
-    struct Process_Info* process_info = (struct Process_Info*) malloc(sizeof(struct Process_Info));   
-  1f:	89 45 f4             	mov    %eax,-0xc(%ebp)
-    printf(1, "Address of struct:\t%d\n\r", &process_info);
-  22:	8d 45 f4             	lea    -0xc(%ebp),%eax
-  25:	50                   	push   %eax
-  26:	68 d8 07 00 00       	push   $0x7d8
-  2b:	6a 01                	push   $0x1
-  2d:	e8 3e 04 00 00       	call   470 <printf>
+  13:	83 ec 0c             	sub    $0xc,%esp
+  16:	6a 28                	push   $0x28
+  18:	e8 b3 06 00 00       	call   6d0 <malloc>
 
-    ps(3, 2, process_info);
-  32:	83 c4 0c             	add    $0xc,%esp
-  35:	ff 75 f4             	pushl  -0xc(%ebp)
-  38:	6a 02                	push   $0x2
-  3a:	6a 03                	push   $0x3
-  3c:	e8 6a 03 00 00       	call   3ab <ps>
+    ps(6, 4, process_info);
+  1d:	83 c4 0c             	add    $0xc,%esp
+  20:	50                   	push   %eax
+    struct Process_Info* process_info = (struct Process_Info*) malloc(sizeof(struct Process_Info));   
+  21:	89 c3                	mov    %eax,%ebx
+    ps(6, 4, process_info);
+  23:	6a 04                	push   $0x4
+  25:	6a 06                	push   $0x6
+  27:	e8 7f 03 00 00       	call   3ab <ps>
     
-    printf(1, "Process found with following details:\n\r");
-  41:	58                   	pop    %eax
-  42:	5a                   	pop    %edx
-  43:	68 04 08 00 00       	push   $0x804
-  48:	6a 01                	push   $0x1
-  4a:	e8 21 04 00 00       	call   470 <printf>
-    
+    printf(1, "Process found with the following details:\n\r");
+  2c:	58                   	pop    %eax
+  2d:	5a                   	pop    %edx
+  2e:	68 d8 07 00 00       	push   $0x7d8
+  33:	6a 01                	push   $0x1
+  35:	e8 36 04 00 00       	call   470 <printf>
+    printf(1, "Name\t%s\n", process_info->name);
+  3a:	8d 43 18             	lea    0x18(%ebx),%eax
+  3d:	83 c4 0c             	add    $0xc,%esp
+  40:	50                   	push   %eax
+  41:	68 1d 08 00 00       	push   $0x81d
+  46:	6a 01                	push   $0x1
+  48:	e8 23 04 00 00       	call   470 <printf>
     printf(1, "PID\t%d\n", process_info->pid);
-  4f:	8b 45 f4             	mov    -0xc(%ebp),%eax
-  52:	83 c4 0c             	add    $0xc,%esp
-  55:	ff 70 04             	pushl  0x4(%eax)
-  58:	68 f0 07 00 00       	push   $0x7f0
-  5d:	6a 01                	push   $0x1
-  5f:	e8 0c 04 00 00       	call   470 <printf>
+  4d:	83 c4 0c             	add    $0xc,%esp
+  50:	ff 73 10             	pushl  0x10(%ebx)
+  53:	68 04 08 00 00       	push   $0x804
+  58:	6a 01                	push   $0x1
+  5a:	e8 11 04 00 00       	call   470 <printf>
     printf(1, "State\t%d\n", process_info->state);
-  64:	8b 45 f4             	mov    -0xc(%ebp),%eax
-  67:	83 c4 0c             	add    $0xc,%esp
-  6a:	ff 70 08             	pushl  0x8(%eax)
-  6d:	68 f8 07 00 00       	push   $0x7f8
-  72:	6a 01                	push   $0x1
-  74:	e8 f7 03 00 00       	call   470 <printf>
-    // printf(1. "Name\t%s\n", process_info->name);
-    // printf(1. "Name\t%s\n", process_info->name);
+  5f:	83 c4 0c             	add    $0xc,%esp
+  62:	ff 73 14             	pushl  0x14(%ebx)
+  65:	68 0c 08 00 00       	push   $0x80c
+  6a:	6a 01                	push   $0x1
+  6c:	e8 ff 03 00 00       	call   470 <printf>
+    printf(1, "Parent Name\t%s\n", process_info->parent_name);
+  71:	83 c4 0c             	add    $0xc,%esp
+  74:	53                   	push   %ebx
+  75:	68 16 08 00 00       	push   $0x816
+  7a:	6a 01                	push   $0x1
+  7c:	e8 ef 03 00 00       	call   470 <printf>
+    
 
     free(process_info);  
-  79:	59                   	pop    %ecx
-  7a:	ff 75 f4             	pushl  -0xc(%ebp)
-  7d:	e8 be 05 00 00       	call   640 <free>
+  81:	89 1c 24             	mov    %ebx,(%esp)
+  84:	e8 b7 05 00 00       	call   640 <free>
     faps(getpid());
-  82:	e8 fc 02 00 00       	call   383 <getpid>
-  87:	89 04 24             	mov    %eax,(%esp)
-  8a:	e8 14 03 00 00       	call   3a3 <faps>
+  89:	e8 f5 02 00 00       	call   383 <getpid>
+  8e:	89 04 24             	mov    %eax,(%esp)
+  91:	e8 0d 03 00 00       	call   3a3 <faps>
     exit();
-  8f:	e8 6f 02 00 00       	call   303 <exit>
-  94:	66 90                	xchg   %ax,%ax
-  96:	66 90                	xchg   %ax,%ax
-  98:	66 90                	xchg   %ax,%ax
-  9a:	66 90                	xchg   %ax,%ax
-  9c:	66 90                	xchg   %ax,%ax
-  9e:	66 90                	xchg   %ax,%ax
+  96:	e8 68 02 00 00       	call   303 <exit>
+  9b:	66 90                	xchg   %ax,%ax
+  9d:	66 90                	xchg   %ax,%ax
+  9f:	90                   	nop
 
 000000a0 <strcpy>:
 #include "user.h"
@@ -674,7 +673,7 @@ printint(int fd, int xx, int base, int sgn)
  3f2:	31 d2                	xor    %edx,%edx
  3f4:	89 cf                	mov    %ecx,%edi
  3f6:	f7 75 c4             	divl   -0x3c(%ebp)
- 3f9:	0f b6 92 34 08 00 00 	movzbl 0x834(%edx),%edx
+ 3f9:	0f b6 92 30 08 00 00 	movzbl 0x830(%edx),%edx
  400:	89 45 c0             	mov    %eax,-0x40(%ebp)
  403:	89 d8                	mov    %ebx,%eax
  405:	8d 5b 01             	lea    0x1(%ebx),%ebx
@@ -945,7 +944,7 @@ printf(int fd, const char *fmt, ...)
  5f1:	8b 5d 08             	mov    0x8(%ebp),%ebx
  5f4:	eb 1a                	jmp    610 <printf+0x1a0>
           s = "(null)";
- 5f6:	bb 2c 08 00 00       	mov    $0x82c,%ebx
+ 5f6:	bb 26 08 00 00       	mov    $0x826,%ebx
         while(*s != 0){
  5fb:	89 75 d4             	mov    %esi,-0x2c(%ebp)
  5fe:	b8 28 00 00 00       	mov    $0x28,%eax

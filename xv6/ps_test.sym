@@ -1,6 +1,6 @@
 00000000 .text
 000007d8 .rodata
-00000848 .eh_frame
+00000844 .eh_frame
 00000adc .bss
 00000000 .comment
 00000000 .debug_aranges
@@ -14,7 +14,7 @@
 00000000 ulib.c
 00000000 printf.c
 000003c0 printint
-00000834 digits.1092
+00000830 digits.1092
 00000000 umalloc.c
 00000adc freep
 00000ae0 base

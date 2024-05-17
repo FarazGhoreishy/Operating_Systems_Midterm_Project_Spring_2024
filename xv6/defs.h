@@ -12,10 +12,10 @@ struct superblock;
 
 struct Process_Info
 {
-  int parent_pid;             // Parent process ID
-  int pid;                    // Process ID
-  int state;                  // Process state
-  char name[16];              // Process name
+  char parent_name[16];             // Parent process ID
+  int pid;                          // Process ID
+  int state;                        // Process state
+  char name[16];                    // Process name
 };
 
 // bio.c
