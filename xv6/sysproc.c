@@ -109,5 +109,5 @@ int sys_ps(void)
   if (argint(0, &pid) < 0 || argint(1, &state) < 0 || argptr(0, (void *)&process_info, sizeof(*process_info)) < 0)
     return -1;
 
-  return ps(pid, state, (void *)process_info);
+  return ps(pid, state, process_info);
 }

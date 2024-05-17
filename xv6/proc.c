@@ -576,3 +576,31 @@ int faps (int pid)
   release(&ptable.lock);
   return 42;
 }
+
+int ps(int pid, int state, struct Process_Info *process_info)
+{
+  // struct Process_Info *process_info = (struct Process_Info *) process_info_t;
+  memset(&process_info, 0, sizeof(process_info));
+
+  struct proc *process;
+  
+  acquire(&ptable.lock);
+
+  int pid_diff = __INT_MAX__;
+  for (process = ptable.proc; process < &ptable.proc[NPROC]; process++)
+  {
+    if ((int)process->state == state)
+    {
+      if (abs(process->pid - pid) < pid_diff)
+      {
+        process_info->parent_pid = process->parent->pid;
+        process_info->pid = process->pid;
+        process_info->state = process->state;
+        strncpy(process_info->name, process->name, 16);
+      }
+    }
+  }
+
+  release(&ptable.lock);
+  return 22;
+}
