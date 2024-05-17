@@ -533,31 +533,46 @@ procdump(void)
   }
 }
 
-int faps (void)
+int faps (int pid)
 {
   struct proc *process;
 
   sti();  // Enabling interrupts for locking mechanisms
 
   acquire(&ptable.lock);
-  cprintf("\tNAME\t|\tPID\t|\tSTATE\t\n");
-
+  
+  cprintf("\n\tNAME\t\t|\tPID\t|\tSTATE\t\t|\tSIZE\t|\tPARENT\t\n");
   for (process = ptable.proc; process < &ptable.proc[NPROC]; process++)
   {
-    cprintf("\t________________________________________\t\n");
-    if (process->state == UNUSED)
-      cprintf("\t%s\t|\t%d\t|\tUNUSED\t\n", process->name, process->pid);
-    else if (process->state == EMBRYO)
-      cprintf("\t%s\t|\t%d\t|\tEMBRYO\t\n", process->name, process->pid);
-    else if (process->state == SLEEPING)
-      cprintf("\t%s\t|\t%d\t|\tSLEEPING\t\n", process->name, process->pid);
-    else if (process->state == RUNNABLE)
-      cprintf("\t%s\t|\t%d\t|\tRUNNABLE\t\n", process->name, process->pid);
-    else if (process->state == RUNNING)
-      cprintf("\t%s\t|\t%d\t|\tRUNNING\t\n", process->name, process->pid);
-    else if (process->state == ZOMBIE)
-      cprintf("\t%s\t|\t%d\t|\tZOMBIE\t\n", process->name, process->pid);
+    if (process->state != UNUSED)
+    {
+      cprintf("\t------------------------------------------------------------------------------------------\t\n");
+
+      if (process->state == EMBRYO)
+        cprintf("\t%s\t\t|\t%d\t|\tEMBRYO\t\t|\t%d\t|\t%s\t\n", process->name, process->pid, process->sz, process->parent->name);
+      else if (process->state == SLEEPING)
+        cprintf("\t%s\t\t|\t%d\t|\tSLEEPING\t|\t%d\t|\t%s\t\n", process->name, process->pid, process->sz, process->parent->name);
+      else if (process->state == RUNNABLE)
+        cprintf("\t%s\t\t|\t%d\t|\tRUNNABLE\t\t|\t%d\t|\t%s\t\n", process->name, process->pid, process->sz, process->parent->name);
+      else if (process->state == RUNNING)
+        cprintf("\t%s\t\t|\t%d\t|\tRUNNING\t\t|\t%d\t|\t%s\t\n", process->name, process->pid, process->sz, process->parent->name);
+      else if (process->state == ZOMBIE)
+        cprintf("\t%s\t\t|\t%d\t|\tZOMBIE\t\t|\t%d\t|\t%s\t\n", process->name, process->pid, process->sz, process->parent->name);
+    }
   }
+
+  cprintf("\nChecking PID\t%d\t...\n\r", pid);
+  for (process = ptable.proc; process < &ptable.proc[NPROC]; process++)
+  {
+    if (process->pid == pid)
+    {
+      cprintf("Process with pid = %d was found with state = %d\n\r.", pid, (int)process->state);
+      release(&ptable.lock);
+      return 42;
+    }
+  }
+
+  cprintf("No process with pid = %d was found.\n\r", pid);
   release(&ptable.lock);
   return 42;
 }

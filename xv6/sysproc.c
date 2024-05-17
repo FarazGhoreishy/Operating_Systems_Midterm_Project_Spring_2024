@@ -92,5 +92,10 @@ sys_uptime(void)
 
 int sys_faps(void)
 {
-  return faps();
+  int pid;
+
+  if(argint(0, &pid) < 0)
+    return -1;
+
+  return faps(pid);
 }
