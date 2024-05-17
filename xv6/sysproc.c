@@ -99,3 +99,12 @@ int sys_faps(void)
 
   return faps(pid);
 }
+
+int sys_ps(void)
+{
+
+   struct Data *data;
+   argptr(0, (void *)&data, sizeof(*data));
+   return doSomeWork((void *)data);
+
+}
