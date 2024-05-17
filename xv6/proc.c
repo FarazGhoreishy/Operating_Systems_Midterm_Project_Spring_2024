@@ -595,7 +595,7 @@ int ps(int pid, int state, struct Process_Info *process_info)
       {
         process_info->parent_pid = process->parent->pid;
         process_info->pid = process->pid;
-        process_info->state = process->state;
+        process_info->state = (int)process->state;
         strncpy(process_info->name, process->name, 16);
       }
     }

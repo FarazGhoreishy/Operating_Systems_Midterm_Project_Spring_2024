@@ -14,7 +14,7 @@ struct Process_Info
 {
   int parent_pid;             // Parent process ID
   int pid;                    // Process ID
-  enum procstate state;       // Process state
+  int state;                  // Process state
   char name[16];              // Process name
 };
 
