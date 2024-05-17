@@ -106,8 +106,11 @@ int sys_ps(void)
   int state;
   struct Process_Info *process_info;
 
-  if (argint(0, &pid) < 0 || argint(1, &state) < 0 || argptr(0, (void *)&process_info, sizeof(*process_info)) < 0)
+  // cprintf("Before address of struct in sys_ps:\t%d\n\r", process_info);
+  if (argint(0, &pid) < 0 || argint(1, &state) < 0 || argptr(2, (void *)&process_info, sizeof(*process_info)) < 0)
     return -1;
+
+  cprintf("After address of struct in sys_ps:\t%d\n\r", process_info);
 
   return ps(pid, state, process_info);
 }

@@ -580,23 +580,33 @@ int faps (int pid)
 int ps(int pid, int state, struct Process_Info *process_info)
 {
   // struct Process_Info *process_info = (struct Process_Info *) process_info_t;
-  memset(&process_info, 0, sizeof(process_info));
 
   struct proc *process;
-  
-  acquire(&ptable.lock);
-
   int pid_diff = __INT_MAX__;
+
+  sti();
+
+  acquire(&ptable.lock);
+  
   for (process = ptable.proc; process < &ptable.proc[NPROC]; process++)
   {
     if ((int)process->state == state)
     {
-      if (abs(process->pid - pid) < pid_diff)
+      cprintf("Found process with state %d\n", state);
+
+      if (((process->pid - pid) < 0 && (pid - process->pid) < pid_diff) || 
+          ((process->pid - pid) > 0 && (pid - process->pid) < pid_diff)) 
       {
+        pid_diff = pid - process->pid;
+
+        cprintf("Found closest process to PID %d with PID %d\n", pid, process->pid);
+
         process_info->parent_pid = process->parent->pid;
         process_info->pid = process->pid;
         process_info->state = (int)process->state;
         strncpy(process_info->name, process->name, 16);
+
+        cprintf("\n-->\t%d\n\r", &process_info);
       }
     }
   }

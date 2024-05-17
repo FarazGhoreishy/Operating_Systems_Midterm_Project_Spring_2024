@@ -13,12 +13,15 @@ struct Process_Info
 int main() 
 {
 
-    struct Process_Info* process_info = (struct Process_Info*) malloc(sizeof(*process_info));   
+    struct Process_Info* process_info = (struct Process_Info*) malloc(sizeof(struct Process_Info));   
+    printf(1, "Address of struct:\t%d\n\r", &process_info);
 
-    ps(5, 4, process_info);
-
+    ps(3, 2, process_info);
+    
     printf(1, "Process found with following details:\n\r");
-    printf(1. "Name\t%d\n", process_info[0].pid);
+    
+    printf(1, "PID\t%d\n", process_info->pid);
+    printf(1, "State\t%d\n", process_info->state);
     // printf(1. "Name\t%s\n", process_info->name);
     // printf(1. "Name\t%s\n", process_info->name);
 
